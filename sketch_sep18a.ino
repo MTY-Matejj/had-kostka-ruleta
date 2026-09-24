@@ -10,6 +10,7 @@ int buttonState9 = 9;
 int buttonState8 = 8;
 
 int lastButtonState9 = LOW; 
+int lastButtonState8 = LOW;
 int stavy = 0;
 
 uint8_t fullscreen [8] = {
@@ -34,6 +35,16 @@ void setup() {
   lcd.print("VYPNUTO");
 }
 
+void stavy() {
+//  if (buttonState8 == HIGH && lastButtonState8 == LOW) {
+//    had();
+//  } 
+
+
+
+}
+
+
 void loop() {
   buttonState9 = digitalRead(button9);
   buttonState8 = digitalRead(button8);
@@ -53,36 +64,42 @@ void loop() {
         lcd.print("VYPNUTO"); 
         break;
       case 1:
-        lcd.print("HAD");     
-        had();
+        lcd.print("HAD:");
+        stavy();
         break; 
       case 2:
-        lcd.print("KOSTKA");
+        lcd.print("KOSTKA:");
         break; 
       case 3:
-        lcd.print("RULETA");
+        lcd.print("RULETA:");
         break; 
     }
     
     delay(50);
   }
   
-  lastButtonState9 = buttonState9; 
-
+  lastButtonState9 = buttonState9;
+  lastButtonState8 = buttonState8; 
 }
+
 
 void had() {
   lcd.setCursor(0, 0); 
   for(int i = 5; i < 16; i++ ) {
     lcd.setCursor(i, 0);
     lcd.write((uint8_t)0);
-    delay(100);
+    delay(250);
     lcd.clear();
+    lcd.print("HAD");     
   }
-  for(int i = 15; i >= 0; i--) {
+  
+  for(int i = 15; i >= 4; i--) {
     lcd.setCursor(i, 1);
     lcd.write((uint8_t)0);
-    delay(100);
+    delay(250);
     lcd.clear();
+    lcd.print("HAD");     
+
   }
+  lcd.setCursor(5,0);
 }
