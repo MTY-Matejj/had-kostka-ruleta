@@ -92,7 +92,7 @@ void loop() {
 void had() {
   lcd.clear();
   lcd.setCursor(0, 0);
-  lcd.print("HAD");
+  lcd.print("HAD:");
 
   for (int i = 5; i < 16; i++) {
     lcd.setCursor(i, 0);
@@ -100,7 +100,7 @@ void had() {
     delay(250);
     lcd.clear();
     lcd.setCursor(0, 0);
-    lcd.print("HAD");
+    lcd.print("HAD:");
   }
 
   for (int i = 15; i >= 4; i--) {
@@ -109,7 +109,7 @@ void had() {
     delay(250);
     lcd.clear();
     lcd.setCursor(0, 0);
-    lcd.print("HAD");
+    lcd.print("HAD:");
   }
 
   lcd.setCursor(5, 0);
