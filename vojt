@@ -1,0 +1,107 @@
+#include <LiquidTWI2.h>
+
+LiquidTWI2 lcd(0x20);
+
+uint8_t fullpixel [8] = {
+  0b11111,
+  0b11111,
+  0b11111,
+  0b11111,
+  0b11111,
+  0b11111,
+  0b11111,
+  0b11111
+};
+
+int mode_btn = 10;
+int act_btn = 11;
+int mode_btn_state = 0;
+int last_btn_state = LOW;
+int mode = 0;
+int act = 0;
+
+void setup() {
+  lcd.setMCPType(LTI_TYPE_MCP23008); 
+  lcd.begin(16, 2);
+  lcd.clear();
+  lcd.createChar(0, fullpixel);
+  had();
+  
+  pinMode(mode_btn, INPUT);
+  pinMode(act_btn, INPUT);
+}
+
+void loop() {
+mode_btn_state = digitalRead(mode_btn);
+act = digitalRead(act_btn);
+  
+  if (mode_btn_state == HIGH && last_btn_state == LOW) {
+    mode = (mode + 1) % 3; // 0 -> 1 -> 2 -> 0
+    lcd.clear();
+  }
+  last_btn_state = mode_btn_state;
+  
+switch (mode) {
+case 0:
+  lcd.print("[1] Had");
+  lcd.setCursor(0 ,1");
+  lcd.print("Zmackni BTN 1");
+  
+  if (act == 1) had();
+  break;
+case 1:
+  lcd.print("[2] Kostka");
+  lcd.setCursor(0 ,1");
+  lcd.print("Zmackni BTN 1");
+  
+  if (act == 1) kostka();
+  break;
+case 2:
+  lcd.print("[3] Ruleta");
+  lcd.setCursor(0 ,1");
+  lcd.print("Zmackni BTN 1");
+  
+  if (act == 1) ruleta();
+  break;
+}
+
+void had(){
+lcd.clear();
+lcd.setCursor(8, 0);
+for (int i = 0; i =< 8; i++){
+  lcd.setCursor(i, 0);
+  lcd.write((uint8_t)0);
+  delay(500);
+  lcd.clear();
+}
+
+lcd.setCursor(15, 1);
+lcd.write((uint8_t)0);
+delay(500);
+lcd.clear();
+
+for (int i = 0; i => 8; i--) {
+  lcd.setCursor(i, 1);
+  lcd.write((uint8_t)0);
+  delay(500);
+  lcd.clear();
+  }
+}
+
+void kostka() {
+lcd.clear();
+int promena_k = random(1, 7);
+lcd.clear();
+lcd.setCursor(0, 0);
+lcd.print("Cislo: ");
+lcd.print(promena_k);
+}
+
+void ruleta(){
+lcd.clear();
+int promena_r = random(1, 40);
+lcd.clear();
+lcd.setCursor(0, 0);
+lcd.print("Cislo: ");
+lcd.print(promena_r);
+}
