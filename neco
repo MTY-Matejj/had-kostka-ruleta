@@ -2,8 +2,11 @@
 #include <LiquidTWI2.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 LiquidTWI2 lcd(0x20);
+
+
 
 const int button9 = 9;
 const int button8 = 8;
@@ -26,6 +29,9 @@ uint8_t fullscreen[8] = {
 };
 
 void setup() {
+  Serial.begin(9600);
+
+
   pinMode(button9, INPUT);
   pinMode(button8, INPUT);
 
@@ -65,6 +71,7 @@ void loop() {
         had();        
         break;
       case 2:
+        kostka();
         break;
       case 3:
         ruleta();
@@ -109,17 +116,16 @@ void had() {
 }
 
 void ruleta() {
-  int ruletaHodnota = rand();
-  lcd.print(ruletaHodnota);
-  delay(200);
-
+    int kostkaHodnota = random(1, 40);
+    lcd.print(kostkaHodnota);
+    delay(100);
+  
 }
 
-void kostka(int min = 1, int max = 6, int count = 10) {
-  for (int i = 0; i < count; i++) {
-    int kostkaHodnota = rand() % (max - min + 1) + min;
-    lcd.print(kostkaHodnota);
-  }
+void kostka() {
+  int kostkaHodnota = random(1, 6);
+  lcd.print(kostkaHodnota);
+  delay(200);
 }
 
 
