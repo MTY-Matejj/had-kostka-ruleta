@@ -1,5 +1,7 @@
 #include <Wire.h>
 #include <LiquidTWI2.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 LiquidTWI2 lcd(0x20);
 
@@ -28,14 +30,13 @@ void setup() {
   pinMode(button8, INPUT);
 
   lcd.begin(16, 2);
-  lcd.createChar(0, fullscreen);   // register the block character
+  lcd.createChar(0, fullscreen);   
   lcd.clear();
 
   lcd.setCursor(0, 0);
   lcd.print("VYPNUTO");
 }
 
-// Just displays the currently selected case name
 void showMenu() {
   lcd.clear();
   lcd.setCursor(0, 0);
@@ -51,31 +52,27 @@ void loop() {
   buttonState9 = digitalRead(button9);
   buttonState8 = digitalRead(button8);
 
-  // ---- Button 9: only switch between cases ----
   if (buttonState9 == HIGH && lastButtonState9 == LOW) {
     stavy++;
     if (stavy > 3) stavy = 0;
-
-    showMenu();       // show which case is now selected
-    delay(50);
+    showMenu();      
+    delay(150);
   }
 
-  // ---- Button 8: start the function of the selected case ----
   if (buttonState8 == HIGH && lastButtonState8 == LOW) {
     switch (stavy) {
       case 1:
-        had();        // start snake
+        had();        
         break;
       case 2:
-        // kostka();  // to be implemented
         break;
       case 3:
-        // ruleta();  // to be implemented
+        ruleta();
         break;
       default:
-        break;        // VYPNUTO - do nothing
+        break;        
     }
-    showMenu();       // restore the menu label after the game ends
+    showMenu();       
     delay(50);
   }
 
@@ -83,13 +80,13 @@ void loop() {
   lastButtonState8 = buttonState8;
 }
 
-// ---------------- Snake ----------------
+
+
 void had() {
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("HAD");
 
-  // moving block on the top row
   for (int i = 5; i < 16; i++) {
     lcd.setCursor(i, 0);
     lcd.write((uint8_t)0);
@@ -99,7 +96,6 @@ void had() {
     lcd.print("HAD");
   }
 
-  // moving block on the bottom row
   for (int i = 15; i >= 4; i--) {
     lcd.setCursor(i, 1);
     lcd.write((uint8_t)0);
@@ -111,3 +107,19 @@ void had() {
 
   lcd.setCursor(5, 0);
 }
+
+void ruleta() {
+  int ruletaHodnota = rand();
+  lcd.print(ruletaHodnota);
+  delay(200);
+
+}
+
+void kostka(int min = 1, int max = 6, int count = 10) {
+  for (int i = 0; i < count; i++) {
+    int kostkaHodnota = rand() % (max - min + 1) + min;
+    lcd.print(kostkaHodnota);
+  }
+}
+
+
