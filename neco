@@ -6,8 +6,6 @@
 
 LiquidTWI2 lcd(0x20);
 
-
-
 const int button9 = 9;
 const int button8 = 8;
 
@@ -30,7 +28,8 @@ uint8_t fullscreen[8] = {
 
 void setup() {
   Serial.begin(9600);
-
+  
+  randomSeed(analogRead(0)); 
 
   pinMode(button9, INPUT);
   pinMode(button8, INPUT);
@@ -79,15 +78,13 @@ void loop() {
       default:
         break;        
     }
-    showMenu();       
+    
     delay(50);
   }
 
   lastButtonState9 = buttonState9;
   lastButtonState8 = buttonState8;
 }
-
-
 
 void had() {
   lcd.clear();
@@ -115,17 +112,20 @@ void had() {
   lcd.setCursor(5, 0);
 }
 
-void ruleta() {
-    int kostkaHodnota = random(1, 40);
-    lcd.print(kostkaHodnota);
-    delay(100);
-  
-}
-
 void kostka() {
-  int kostkaHodnota = random(1, 6);
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("KOSTKA:");
+  
+  int kostkaHodnota = random(1, 7); 
   lcd.print(kostkaHodnota);
-  delay(200);
 }
 
-
+void ruleta() {
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("RULETA:");
+  
+  int ruletaHodnota = random(1, 40); 
+  lcd.print(ruletaHodnota);
+}
