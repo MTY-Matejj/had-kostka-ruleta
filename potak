@@ -1,0 +1,57 @@
+#include <Arduino.h>
+#include <LiquidTWI2.h>
+#include <Wire.h>
+
+
+LiquidTWI2 lcd(0x20);
+
+void setup() {
+
+    pinMode(13, OUTPUT);
+    pinMode(12, OUTPUT);
+    pinMode(11, OUTPUT);
+    pinMode(10, OUTPUT);
+
+
+Serial.begin(9600);
+    lcd.setMCPType(LTI_TYPE_MCP23008);
+    lcd.begin(16, 2);
+}
+
+void loop() {
+    int pot = analogRead(A0);
+    float voltage = pot * 4.96 / 1023;
+    lcd.print("Napeti: ");
+    lcd.print(voltage);
+    delay(500);
+    lcd.clear();
+
+    if (voltage >= 0 && voltage < 1.5) {
+        digitalWrite(13, HIGH);
+        digitalWrite(12, LOW);
+        digitalWrite(11, LOW);
+    }
+    else if (voltage >= 1.5 && voltage < 2.5) {
+        digitalWrite(13, LOW);
+        digitalWrite(12, HIGH);
+        digitalWrite(11, LOW);
+    }
+    else if (voltage >= 2.5 && voltage <= 4.95) {
+        digitalWrite(13, LOW);
+        digitalWrite(12, LOW);
+        digitalWrite(11, HIGH);
+    }
+    else {
+        if (voltage > 4.95) {
+            digitalWrite(13, HIGH);
+            digitalWrite(12, HIGH);
+            digitalWrite(11, HIGH);
+            digitalWrite(10, HIGH);
+            delay(500);
+            digitalWrite(13, LOW);
+            digitalWrite(12, LOW);
+            digitalWrite(11, LOW);
+            digitalWrite(10, LOW);
+        }
+    }
+}
